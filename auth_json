@@ -1,0 +1,8 @@
+{
+    "http-basic": {
+        "repo.magento.com": {
+            "username": "composer auth username",
+            "password": "composer auth password"
+        }
+    }
+}

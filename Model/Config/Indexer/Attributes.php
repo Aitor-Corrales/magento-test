@@ -1,13 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Doofinder\Feed\Model\Config\Indexer;
 
 use Doofinder\Feed\Helper\StoreConfig;
 
-/**
- * Class Attributes
- * The class responsible for providing custom Doofinder attributes used in Indexer
- */
 class Attributes
 {
     /**
@@ -27,6 +25,7 @@ class Attributes
 
     /**
      * Attributes constructor.
+     *
      * @param StoreConfig $storeConfig
      * @param array $attributes
      */
@@ -39,34 +38,45 @@ class Attributes
     }
 
     /**
+     * @param integer $storeId
      * @return array
      */
-    public function getDefaultAttributes()
+    public function get(int $storeId): array
+    {
+        if (!$this->mergedAttributes) {
+            $this->merge($storeId);
+        }
+
+        return $this->mergedAttributes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDefaultAttributes(): array
     {
         return $this->attributes;
     }
 
     /**
-     * @param integer $storeId
+     * @param int|null $storeId
+     *
      * @return array
      */
-    public function get($storeId)
+    private function getDoofinderAttributes(?int $storeId = null): array
     {
-        if (!$this->mergedAttributes) {
-            $this->merge($storeId);
-        }
-        return $this->mergedAttributes;
+        return $this->storeConfig->getDoofinderAttributes($storeId);
     }
 
     /**
      * @param integer $storeId
      * @return void
      */
-    private function merge($storeId)
+    private function merge(int $storeId)
     {
         $this->mergedAttributes = array_merge(
-            $this->attributes,
-            $this->storeConfig->getDoofinderFields($storeId)
+            $this->getDefaultAttributes(),
+            $this->getDoofinderAttributes($storeId)
         );
     }
 }
