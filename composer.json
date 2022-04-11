@@ -1,5 +1,5 @@
 {
-    "name": "doofinder/doofinder-magento2",
+    "name": "df/df-magento2",
     "version": "0.5.0",
     "description": "Doofinder module for Magento 2",
     "type": "magento2-module",
